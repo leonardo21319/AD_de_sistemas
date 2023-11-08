@@ -1,5 +1,6 @@
 CREATE DATABASE AD_SISTEMAS
 USE AD_SISTEMAS
+drop database AD_SISTEMAS
 
 ----Tabla Persona---
 CREATE TABLE Persona(
@@ -7,16 +8,9 @@ CREATE TABLE Persona(
 	Id_Contacto INT NOT NULL,
 	Nombre VARCHAR(50) NOT NULL,
 	A_Paterno VARCHAR(50) NOT NULL,
-	A_Materno VARCHAR(50) NOT NULL
-)
-ALTER TABLE Persona ADD FOREIGN KEY (Id_Contacto) references Contacto(Id_Contacto) 
-ON DELETE CASCADE ON UPDATE CASCADE
-
----Tabla Contacto---
-CREATE TABLE Contacto(
-		Id_Contacto INT IDENTITY (1,1) NOT NULL PRIMARY KEY,
-		Correo VARCHAR(50) NOT NULL, 
-		Telefono VARCHAR(50) NOT NULL
+	A_Materno VARCHAR(50) NOT NULL,
+	Correo VARCHAR(50) NOT NULL, 
+	Telefono VARCHAR(50) NOT NULL
 )
 
 ---Tabla Usuario---
@@ -27,6 +21,7 @@ CREATE TABLE Turista(
 	Contraseña VARCHAR(50) NOT NULL,
 	Id_Historial INT NOT NULL
 )
+
 ALTER TABLE Turista ADD FOREIGN KEY (Id_Persona) references Persona(Id_Persona) 
 ON DELETE CASCADE ON UPDATE CASCADE
 ALTER TABLE Turista ADD FOREIGN KEY (Id_Historial) references Historial_busqueda(Id_Historial) 
@@ -37,7 +32,7 @@ CREATE TABLE Preferencias(
 	Id_Preferencia INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
 	Nombre VARCHAR(50) NOT NULL,
 	Id_Turista INT NOT NULL
-
+)
 ALTER TABLE Preferencias ADD FOREIGN KEY (Id_Turista) references Turista(Id_Turista) 
 ON DELETE CASCADE ON UPDATE CASCADE
 
@@ -82,13 +77,20 @@ ON DELETE CASCADE ON UPDATE CASCADE
 
 -------------------------------LLENADO DE TABLAS-----------------------------
 
-INSERT INTO Persona (Id_Contacto, Nombre, A_Paterno, A_Materno)
+INSERT INTO Persona (Id_Contacto, Nombre, A_Paterno, A_Materno, Correo, Telefono)
 VALUES 
-    (4, 'Juan', 'Perez', 'Gomez'),
-    (5, 'Maria', 'Lopez', 'Martinez'),
-    (6, 'Carlos', 'Garcia', 'Rodriguez');
+    (1, 'Juan', 'Perez', 'Gomez', 'correo1@gmail.com', '123456789'),
+    (2, 'Maria', 'Lopez', 'Martinez', 'correo2@outlook.com', '987654321'),
+    (3, 'Carlos', 'Garcia', 'Rodriguez', 'correo3@hotmail.com', '555555555');
 
-	DELETE FROM Persona
+DBCC CHECKIDENT (Persona, RESEED, 0)
+DELETE FROM Persona
+
+INSERT INTO Turista (Id_Persona, Usuario, Contraseña, Id_Historial)
+VALUES 
+    (1, 'usuario1', 'contraseña1',1),
+    (2, 'usuario2', 'contraseña2',2),
+    (3, 'usuario3', 'contraseña3',3);
 
 INSERT INTO Lugar (Nombre)
 VALUES 
@@ -97,17 +99,11 @@ VALUES
     ('Lugar3');
 
 
-	INSERT INTO Historial_busqueda (Id_Lugar)
+INSERT INTO Historial_busqueda (Id_Lugar)
 VALUES 
     (1),
     (2),
     (3);
-
-	INSERT INTO Contacto (Correo, Telefono)
-VALUES 
-    ('correo1@gmail.com', '123456789'),
-    ('correo2@outlook.com', '987654321'),
-    ('correo3@hotmail.com', '555555555');
 
 
 INSERT INTO Historial_busqueda (Id_Lugar,n)
@@ -115,12 +111,6 @@ VALUES
     (1),
     (2),
     (3);
-
-INSERT INTO Turista (Id_Persona, Usuario, Contraseña, Id_Historial)
-VALUES 
-    (6, 'usuario1', 'contraseña1', 3),
-    (7, 'usuario2', 'contraseña2', 4),
-    (8, 'usuario3', 'contraseña3', 5);
 
 INSERT INTO Preferencias (Nombre, Id_Turista)
 VALUES 
@@ -143,8 +133,10 @@ VALUES
 
 
 SELECT * FROM Persona 
-SELECT * FROM Contacto 
 SELECT * FROM Turista
 SELECT * FROM Historial_busqueda
 SELECT * FROM Lugar
+SELECT * FROM Favoritos
+SELECT * FROM Preferencias
+SELECT * FROM Itinerario
 
