@@ -13,6 +13,7 @@ CREATE TABLE Persona(
 	Telefono VARCHAR(50) NOT NULL
 )
 
+
 ---Tabla Usuario---
 CREATE TABLE Turista(
 	Id_Turista INT IDENTITY (1,1) NOT NULL PRIMARY KEY,
@@ -104,9 +105,10 @@ VALUES
     (1),
     (2),
     (3);
+DBCC CHECKIDENT (Historial_busqueda, RESEED, 0)
+DELETE FROM Historial_busqueda
 
-
-INSERT INTO Historial_busqueda (Id_Lugar,n)
+INSERT INTO Historial_busqueda (Id_Lugar)
 VALUES 
     (1),
     (2),
@@ -114,23 +116,27 @@ VALUES
 
 INSERT INTO Preferencias (Nombre, Id_Turista)
 VALUES 
-    ('Preferencia1', 14),
-    ('Preferencia2', 15),
-    ('Preferencia3', 16);
+    ('Preferencia1', 1),
+    ('Preferencia2', 2),
+    ('Preferencia3', 3);
+
+DBCC CHECKIDENT (Preferencias, RESEED, 0)
+DELETE FROM Preferencias
 
 INSERT INTO Itinerario (Id_Lugar, Fecha_Itinerario, Hora_Itinerario, Id_Turista)
 VALUES 
-    (1, '2023-11-07 00:00:00', '14:30:00', 14),
-    (2, '2023-11-08 00:00:00', '09:00:00', 15),
-    (3, '2023-11-09 00:00:00', '16:45:00', 16);
+    (1, '2023-11-07 00:00:00', '14:30:00', 1),
+    (2, '2023-11-08 00:00:00', '09:00:00', 2),
+    (3, '2023-11-09 00:00:00', '16:45:00', 3);
 
-	INSERT INTO Favoritos (Id_Lugar, Id_Turista)
+DBCC CHECKIDENT (Itinerario, RESEED, 0)
+DELETE FROM Itinerario
+
+INSERT INTO Favoritos (Id_Lugar, Id_Turista)
 VALUES 
-    (1, 14),
-    (2, 15),
-    (3, 16);
-
-
+    (1, 1),
+    (2, 2),
+    (3, 3);
 
 SELECT * FROM Persona 
 SELECT * FROM Turista
